@@ -1,79 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil interativo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8"> <!-- Define o charset como UTF-8 para suportar caracteres especiais -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsividade em dispositivos móveis -->
+    <title>Perfil interativo</title> <!-- Título da página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Importa o CSS do Bootstrap para estilos prontos -->
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="card" id="profileCard">
-            <div class="card-body text-center">
-                <img src="https://via.placeholder.com/150" alt="Imagem de Perfil" id="profileImage"
+<body class="bg-light"> <!-- Define o fundo da página como claro -->
+
+    <div class="container mt-5"> <!-- Container do Bootstrap, margem superior de 5 unidades -->
+        <div class="card" id="profileCard"> <!-- Card que contém as informações do perfil -->
+            <div class="card-body text-center"> <!-- Corpo do card, centralizado -->
+                <!-- Imagem do perfil, com bordas arredondadas e tamanho de 150px -->
+                <img src="https://via.placeholder.com/150" alt="Imagem de Perfil" id="profileImage" 
                      class="rounded-circle mb-3" style="width: 150px;">
+
+                <!-- Nome do usuário, com id para poder ser alterado via JS -->
                 <h3 id="profileName">Nome: Meu Perfil</h3>
+
+                <!-- Idade do usuário, com id para ser alterado via JS -->
                 <p id="profileAge">Idade: 18</p>
 
+                <!-- Título para a seção de hobbies -->
                 <h5>Hobbies:</h5>
+
+                <!-- Lista de hobbies, com id para facilitar manipulação via JS -->
                 <ul id="hobbiesList" class="list-group mb-3">
-                    <li class="list-group-item">Leitura</li>
-                    <li class="list-group-item">Esporte</li>
-                    <li class="list-group-item">Música</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Leitura
+                        <button class="btn btn-sm btn-danger" onclick="removerHobby(this)">Excluir</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Esporte
+                        <button class="btn btn-sm btn-danger" onclick="removerHobby(this)">Excluir</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Música
+                        <button class="btn btn-sm btn-danger" onclick="removerHobby(this)">Excluir</button>
+                    </li>
                 </ul>
 
+                <!-- Botões de ação para alterar dados do perfil -->
                 <button class="btn btn-primary me-2" onclick="alterarNome()">Alterar Nome</button>
                 <button class="btn btn-success me-2" onclick="adicionarHobby()">Adicionar Hobby</button>
                 <button class="btn btn-warning me-2" onclick="mudarCorDeFundo()">Mudar Cor de Fundo</button>
-                <button class="btn btn-danger me-2" onclick="alterarIdade()">Alterar Idade</button>
-                <button class="btn btn-info me-2" onclick="alterarFoto()">Alterar Foto</button>
+                <button class="btn btn-secondary me-2" onclick="mudarIdade()">Mudar Idade</button>
+                <button class="btn btn-info me-2" onclick="alterarImagem()">Mudar Imagem</button>
             </div>
         </div>
     </div>
 
     <script>
-        function alterarNome() {
-            const novoNome = prompt("Digite o novo nome");
-            if (novoNome) {
-                document.getElementById("profileName").textContent = "Nome: " + novoNome;
+        // Função para alterar a imagem do perfil
+        function alterarImagem() {
+            const novaImagem = prompt("Cole o URL da nova imagem:"); // Solicita o URL da nova imagem
+            if (novaImagem) { // Se o usuário fornecer um URL
+                document.getElementById("profileImage").src = novaImagem; // Atualiza a imagem do perfil
             }
         }
 
+        // Função para alterar a idade do perfil
+        function mudarIdade() {
+            const novaIdade = prompt("Digite a nova idade:"); // Solicita a nova idade
+            if (novaIdade) { // Se o usuário fornecer uma idade
+                document.getElementById("profileAge").textContent = "Idade: " + novaIdade; // Atualiza a idade exibida
+            }
+        }
+
+        // Função para alterar o nome do perfil
+        function alterarNome() {
+            const novoNome = prompt("Digite o novo nome:"); // Solicita o novo nome
+            if (novoNome) { // Se o usuário fornecer um nome
+                document.getElementById("profileName").textContent = "Nome: " + novoNome; // Atualiza o nome exibido
+            }
+        }
+
+        // Função para adicionar um novo hobby à lista
         function adicionarHobby() {
-            const novoHobby = prompt("Digite um novo hobby");
-            if (novoHobby) {
+            const novoHobby = prompt("Digite um novo hobby:"); // Solicita um novo hobby
+            if (novoHobby) { // Se o usuário fornecer um hobby
+                // Cria um novo item de lista (li)
                 const li = document.createElement("li");
-                li.textContent = novoHobby;
-                li.className = "list-group-item";
+                li.className = "list-group-item d-flex justify-content-between align-items-center"; // Define classes de estilo
+
+                li.textContent = novoHobby; // Define o texto do item com o novo hobby
+
+                // Cria um botão de exclusão
+                const button = document.createElement("button");
+                button.textContent = "Excluir"; // Texto do botão
+                button.className = "btn btn-sm btn-danger"; // Define a classe de estilo do botão
+                button.onclick = function () { // Ao clicar no botão, chama a função para remover o hobby
+                    removerHobby(button);
+                };
+
+                // Adiciona o botão ao item de lista
+                li.appendChild(button);
+                // Adiciona o item de lista à lista de hobbies
                 document.getElementById("hobbiesList").appendChild(li);
             }
         }
 
-        function excluirHobby() {
-
+        // Função para remover um hobby
+        function removerHobby(button) {
+            const li = button.parentElement; // Obtém o item de lista (li) que contém o botão
+            li.remove(); // Remove o item de lista
         }
 
-        function alterarIdade() {
-            const novaIdade = prompt("Digite a nova idade");
-            if (novaIdade) {
-                document.getElementById("profileAge").textContent = "Idade: " + novaIdade;
-            }
-        }
-
-        function alterarFoto() {
-            const novaFoto = prompt("Digite a url da nova foto");
-            if (novaFoto) {
-                document.getElementById("profileImage").src = novaFoto;
-            }
-        }
-
+        // Função para mudar a cor de fundo do card
         function mudarCorDeFundo() {
+            // Array com algumas cores possíveis para o fundo
             const cores = ["#f8d7da", "#d1ecf1", "#d4edda", "#fff3cd", "#cce5ff"];
+            // Escolhe uma cor aleatória do array
             const corAleatoria = cores[Math.floor(Math.random() * cores.length)];
+            // Aplica a cor aleatória ao fundo do card
             document.getElementById("profileCard").style.backgroundColor = corAleatoria;
         }
     </script>
 
+    <!-- Scripts do Bootstrap, necessários para o funcionamento de alguns componentes -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
